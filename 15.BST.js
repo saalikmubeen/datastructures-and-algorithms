@@ -39,10 +39,11 @@
 // Two ways:
 // Breadth-first Search (BFS)
 // Depth-first Search   (DFS)  -> InOrder, PreOrder and PostOrder
+
 // visit the node, traverse the left and traverse the right
-// PreOrder -> visit the node first(i.e, add it to the list), then traverse the left and then traverse the right
-// PostOrder -> visit the node after. Traverse the left and the right and then visit the node(i.e, add it to the list)
-// InOrder -> traverse the entire left side, then visit the node(i.e, add it to the list) and then traverse the entire right
+// PreOrder -> visit the node first(i.e, add it to the list), then traverse the left and then traverse the right (NLR)
+// PostOrder -> visit the node after. Traverse the left and the right and then visit the node(i.e, add it to the list) (LRN)
+// InOrder -> traverse the entire left side, then visit the node(i.e, add it to the list) and then traverse the entire right (LNR)
 
 // DFS uses a stack (push and pop) and BFS uses a queue(push and shift)
 

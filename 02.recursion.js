@@ -62,6 +62,17 @@ function factorialRecursive(num) {
 console.log(factorialRecursive(4));
 
 
+// Tail Recusrion
+// O(1) space complexity
+function tailFactorial(num, resultSoFar = 1) {
+  if(num === 0) {
+    return resultSoFar
+  }
+
+  return tailFactorial(num - 1, resultSoFar * num);
+}
+
+
 // string reversal
 function reverseStr(str) {
   if(str === "") {

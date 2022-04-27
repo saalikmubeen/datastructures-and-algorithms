@@ -7,6 +7,9 @@
 // Searching  -   O(N)
 // Access     -   O(N)
 
+
+// LINKED LIST IMPLEMENTATION
+
 class Node {
   constructor(value){
     this.value = value
@@ -59,6 +62,31 @@ class Stack {
     this.first = newFirst
     this.size--
     return currentFirst.value
+  }
+
+}
+
+
+// ARRAY IMPLEMENTATION
+
+class Stack_ {
+
+constructor() {
+  this.stack = []
+}
+
+
+  push(element) {
+    this.stack.push(element)
+  }
+
+  pop(element) {
+    return this.stack.pop()
+  }
+
+
+  peek() {
+    return this.stack[this.stack.length - 1]
   }
 
 }

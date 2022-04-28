@@ -4,6 +4,10 @@
 // Finds the shortest path between two vertices on a graph
 // "What's the fastest way to get from point A to point B?"
 
+// The time complexity of Dijkstra’s Algorithm is O(V + E * log(V)),
+// And space complexity is O(|V| + |E|)
+// where V is the number of nodes, and E is the number of edges in the graph.
+
 class Node {
   constructor (val, priority) {
     this.val = val

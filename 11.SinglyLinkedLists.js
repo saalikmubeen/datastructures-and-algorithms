@@ -322,3 +322,55 @@ function zipperLists(head1, head2) {
 
 let zippedList = zipperLists(l.head, l2.head);  // [1, 'a', 2, 'b', 3, 'c', 4, 'd', 5, 6]
 console.log(zippedList)
+
+
+// Floyd's Tortoise And Hare Algorithm
+// Cycle Detection Algorithm, Given the head of a linked list, return the node where the cycle begins.
+// If there is no cycle, return null.
+// O(n) time, O(1) time;
+var detectCycle = function(head) {
+
+    let tortoise = head;
+    let hare = head;
+
+    while(tortoise?.next && hare?.next?.next) {
+        tortoise = tortoise.next;
+        hare = hare.next.next;
+
+        if(tortoise === hare) {
+
+            while(head !== tortoise) {
+                head = head.next;
+                tortoise = tortoise.next
+            }
+
+            return head
+        }
+    }
+
+    return null
+
+};
+
+
+// Naive Implementation -> O(n) time, O(n) space
+// let detectCycle = function(head) {
+
+
+//     let current = head;
+//     let visited = new Set();
+
+//     while(current) {
+
+//         if(visited.has(current)) {
+//             return current
+//         } else {
+//             visited.add(current)
+//         }
+
+//         current = current.next
+//     }
+
+//     return null
+
+// };

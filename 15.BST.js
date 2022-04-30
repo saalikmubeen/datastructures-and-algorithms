@@ -296,3 +296,46 @@ console.log(tree.maxRootToLeafSum()) // 39
                                         // so that it is easily reconstructed or copied
 // console.log(tree.DFSPostOrder())     // [2, 7, 5, 11, 16, 13, 10]
 // console.log(tree.DFSInOrder())       // [2, 5, 7, 10, 11, 13, 16] -> Notice we get all nodes in the tree in their underlying order
+
+
+// Validate if Binary Search Tree is Valid;
+let isValidBST = function(root, min = -Infinity, max = Infinity) {
+
+    if(root.val >= max ) return false;
+    if(root.val <= min ) return false;
+
+    if(root.left) {
+        if(!isValidBST(root.left, min, root.val)) {
+            return false;
+        }
+    }
+
+    if(root.right) {
+        if(!isValidBST(root.right, root.val, max)) {
+            return false
+        }
+    }
+
+    return true;
+};
+
+
+// Invert a binary tree -> Given the root of a binary tree, invert the tree, and return its root.
+let invertTree = function(root) {
+
+    if(root === null) {
+        return root
+    }
+
+    let left = root.left
+    let right = root.right;
+
+     root.left = right;
+     root.right = left;
+
+    invertTree(root.left);
+    invertTree(root.right);
+
+
+    return root;
+};

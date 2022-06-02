@@ -57,8 +57,9 @@
 // [41, 39, 33, 18, 27, 12]
 
 class MaxBinaryHeap {
-  constructor () {
-    this.values = [41, 39, 33, 18, 27, 12]
+  constructor (arr) {
+    // this.values = [41, 39, 33, 18, 27, 12]
+    this.values = this.buildHeap(arr)
   }
 
   insert (value) {
@@ -107,7 +108,7 @@ class MaxBinaryHeap {
       return max
   }
 
-  sinkDown () {
+  sinkDown() {
     let parentIndex = 0
     let parentValue = this.values[parentIndex]
 
@@ -145,6 +146,88 @@ class MaxBinaryHeap {
       }
     }
   }
+
+  // O(logn) time | O(1) space
+  siftDown(parentIndex, arr) {
+    let endIndex = arr.length - 1;
+    let leftChildIndex = (2 * parentIndex) + 1
+    let swapIndex;
+
+    while(leftChildIndex <= endIndex) {
+      let rightChildIndex = (2 * parentIndex) + 2 <= endIndex ? (2 * parentIndex) + 2 : -1;
+
+      if(rightChildIndex !== -1 && arr[rightChildIndex] > arr[leftChildIndex]) {
+          swapIndex = rightChildIndex
+      } else {
+         swapIndex = leftChildIndex;
+      }
+
+      if(arr[swapIndex] > arr[parentIndex]) {
+         let larger = arr[swapIndex];
+         arr[swapIndex] = arr[parentIndex];
+         arr[parentIndex] = larger;
+
+         parentIndex = swapIndex;
+         leftChildIndex = (2 * parentIndex) + 1
+      } else {
+          break;
+      }
+
+    }
+
+  }
+
+  // To heapify a subtree rooted with node i which is
+  // an index in arr[]. n is size of heap
+  // O(logn) time comolexity
+ heapify(arr, n, i) {
+     var largest = i; // Initialize largest as root
+     var l = 2 * i + 1; // left = 2*i + 1
+     var r = 2 * i + 2; // right = 2*i + 2
+
+     // If left child is larger than root
+     if (l < n && arr[l] > arr[largest])
+         largest = l;
+
+     // If right child is larger than largest so far
+     if (r < n && arr[r] > arr[largest])
+         largest = r;
+
+     // If largest is not root
+     if (largest != i) {
+         let swap = arr[i];
+         arr[i] = arr[largest];
+         arr[largest] = swap;
+
+         // Recursively heapify the affected sub-tree
+         this.heapify(arr, n, largest);
+     }
+  }
+
+  // O(n) time complexity
+  buildHeapRecursive(arr) {
+    let n = arr.length;
+    for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+       this.heapify(arr, n, i);
+    }
+
+    return arr;
+  }
+
+  buildHeap(arr) {
+     let n = arr.length;
+     let firstParentIdx = Math.floor(n / 2) - 1;
+
+     for(let i = firstParentIdx; i >= 0; i--) {
+        this.siftDown(i, arr)
+     }
+
+     return arr;
+  }
+
+  peek() {
+    return this.values[0];
+  }
 }
 
 // SINK DOWN ?
@@ -153,11 +236,10 @@ class MaxBinaryHeap {
 // is called down-heap (also known as bubble-down, percolate-down, sift-down, trickle down,
 // heapify-down, cascade-down, and extract-min/max).
 
-const heap = new MaxBinaryHeap()
-// heap.values // [41, 39, 33, 18, 27, 12]
+const heap = new MaxBinaryHeap([1, 2, 3, 4, 5])
+console.log(heap.values) // [ 5, 4, 3, 1, 2 ]
 heap.insert(55)
 heap.insert(23)
-// heap.values // [55, 39, 41, 23, 27, 12, 33, 18]
+console.log(heap.values) // [55, 4, 23, 1, 2, 3,  5]
 console.log(heap.extractMax())
-heap.values // [41, 39, 33, 23, 27, 12, 18]
-console.log(heap.values)
+console.log(heap.values) // [ 23, 4, 5, 1, 2, 3 ]

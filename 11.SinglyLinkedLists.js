@@ -339,12 +339,13 @@ var detectCycle = function(head) {
 
         if(tortoise === hare) {
 
-            while(head !== tortoise) {
-                head = head.next;
+            hare = head;
+            while(hare !== tortoise) {
+                hare = hare.next;
                 tortoise = tortoise.next
             }
 
-            return head
+            return hare
         }
     }
 

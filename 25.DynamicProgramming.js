@@ -145,6 +145,21 @@ function fib_table(n){
 // }
 
 
+// function fib_table(n){
+//     const lastTwo = [0, 1];
+//     let counter = 3;
+//
+//     while (counter <= n) {
+//       const nextFib = last[0] + last[1];
+//
+//       lastTwo[0] = lastTwo[1];
+//       lastTwo[1] = nextFib;
+//
+//       counter++
+//     }
+//
+//     return n > 1 ? lastTwo[1] : lastTwo[0];
+// }
 
 // let calculations = 0;
 // function fibonacci(n) { //O(2^n)

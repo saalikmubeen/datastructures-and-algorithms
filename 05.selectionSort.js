@@ -1,4 +1,4 @@
-
+// smallest numbers moves or sinks to the beginning of the list until list is sorted.
 
 // runtime complexity of n^2 (worst case), n^2 (best case)
 // O(1) space complexity

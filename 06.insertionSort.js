@@ -23,3 +23,24 @@ function insertionSort(arr) {
 }
 
 console.log(insertionSort([18, 10, 14, 0, 1, 3, 2, 15, 16, 17, -3]))
+
+
+// OR
+function insertionSort2(arr) {
+
+   for(let i = 1; i < arr.length; i++) {
+      let j = i;
+
+      while(j > 0 && arr[j] < arr[j - 1]) {
+        let smaller = arr[j];
+        arr[j] = arr[j - 1]
+        arr[j - 1] = smaller;
+
+        j--
+      }
+   }
+
+   return arr;
+}
+
+console.log(insertionSort2([18, 10, 14, 0, 1, 3, 2, 15, 16, 17, -3]))

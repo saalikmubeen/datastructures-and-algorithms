@@ -138,22 +138,22 @@ class BinarySearchTree {
     return results;
   }
 
-  // DFSPreOrder() {
-  //   let current = this.root;
-  //   if(!current) return null
-  //
-  //   const stack = [current]
-  //   const results = [];
-  //
-  //   while(stack.length) {
-  //     let node = stack.shift();
-  //     results.push(node.value);
-  //     if(node.right) stack.unshift(node.right);
-  //     if(node.left) stack.unshift(node.left);
-  //   }
-  //
-  //   return results;
-  // }
+  DFSPreOrderIterative() {
+    let current = this.root;
+    if(!current) return null
+
+    const stack = [current]
+    const results = [];
+
+    while(stack.length) {
+      let node = stack.shift();
+      results.push(node.value);
+      if(node.right) stack.unshift(node.right);
+      if(node.left) stack.unshift(node.left);
+    }
+
+    return results;
+  }
 
   DFSPreOrder() {
     if(!this.root) return null
@@ -170,23 +170,23 @@ class BinarySearchTree {
     return results;
   }
 
-  // DFSPostOrder() {
-  //   let current = this.root;
-  //   if(!current) return null
-  //
-  //   const stack = [current]
-  //   const results = [];
-  //
-  //   while(stack.length) {
-  //     let node = stack.pop();
-  //     results.unshift(node.value);
-  //     if(node.left) stack.push(node.left);
-  //     if(node.right) stack.push(node.right);
-  //   }
-  //
-  //
-  //   return results;
-  // }
+  DFSPostOrderIterative() {
+    let current = this.root;
+    if(!current) return null
+
+    const stack = [current]
+    const results = [];
+
+    while(stack.length) {
+      let node = stack.pop();
+      results.unshift(node.value);
+      if(node.left) stack.push(node.left);
+      if(node.right) stack.push(node.right);
+    }
+
+
+    return results;
+  }
 
   DFSPostOrder() {
     if(!this.root) return null
@@ -203,29 +203,29 @@ class BinarySearchTree {
     return results;
   }
 
-  // DFSInOrder() {
-  //   let current = this.root;
-  //   if(!current) return null
-  //
-  //   const stack = []
-  //   const results = [];
-  //
-  //   while(true) {
-  //      if(current !== null) {
-  //        stack.push(current);
-  //        current = current.left
-  //      } else {
-  //        if (stack.length === 0) {
-  //          break;
-  //        }
-  //        current = stack.pop();
-  //        results.push(current.value);
-  //        current = current.right;
-  //      }
-  //   }
-  //
-  //   return results;
-  // }
+  DFSInOrderIterative() {
+    let current = this.root;
+    if(!current) return null
+
+    const stack = []
+    const results = [];
+
+    while(true) {
+       if(current !== null) {
+         stack.push(current);
+         current = current.left
+       } else {
+         if (stack.length === 0) {
+           break;
+         }
+         current = stack.pop();
+         results.push(current.value);
+         current = current.right;
+       }
+    }
+
+    return results;
+  }
 
   DFSInOrder() {
     if(!this.root) return null
@@ -320,6 +320,25 @@ let isValidBST = function(root, min = -Infinity, max = Infinity) {
 };
 
 
+// OR
+
+let isValidBST2 = function(tree, min = -Infinity, max = Infinity) {
+
+    if (tree === null) {
+      return true;
+    }
+
+    if(tree.val < min || tree.val > max) {
+      return false;
+    }
+
+    let isLeftValid = isValidBST2(tree.left, min, tree.val);
+    let isRightValid = isValidBST2(tree.right, tree.val, max);
+
+    return isLeftValid && isRightValid;
+
+};
+
 // Invert a binary tree -> Given the root of a binary tree, invert the tree, and return its root.
 let invertTree = function(root) {
 
@@ -339,3 +358,25 @@ let invertTree = function(root) {
 
     return root;
 };
+
+
+let invertTreeIterative = function(root) {
+  let queue = [root];
+
+  while(queue.length > 0) {
+    let current = queue.shift();
+
+    if(current === null) {
+      continue;
+    }
+
+    // swap left and right;
+    let left = current.left;
+    current.left = current.right;
+    current.right = left;
+
+    queue.push(current.left);
+    queue.push(current.right);
+
+  }
+}

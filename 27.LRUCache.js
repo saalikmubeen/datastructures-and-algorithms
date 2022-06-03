@@ -211,8 +211,8 @@ cache.set("a", 1);
 cache.set("b", 2);
 cache.set("c", 3);
 cache.set("d", 4);
- console.log(cache.getLeastRecent()) // a
- console.log(cache.get("d"))  // 4
- cache.set("a", 10);
+console.log(cache.getLeastRecent()) // a
+console.log(cache.get("d"))  // 4
+cache.set("a", 10);
 console.log(cache.get("a")) // 10
- console.log(cache.getMostRecent())  // a
+console.log(cache.getMostRecent())  // a

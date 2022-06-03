@@ -201,3 +201,66 @@ function fib_table(n){
 // console.log('DP', fasterFib(100));
 // console.log('DP2', fibonacciMaster2(100));
 // console.log('we did ' + calculations + ' calculations');
+
+
+
+// LCS (Longest Common subsequence)
+
+// MEMOIZATION, TOP DOWN APPROACH
+let longestCommonSubsequence = function(text1, text2) {
+
+    function dp(i, j, memo={}) {
+
+        if(`${i},${j}` in memo) {
+            return memo[`${i},${j}`]
+        }
+
+        if(i === -1 || j === -1) {
+             return 0;
+        }
+
+        if(text1[i] === text2[j]) {
+            memo[`${i},${j}`] =  1 + dp(i-1, j-1, memo);
+            return memo[`${i},${j}`]
+        } else {
+            memo[`${i},${j}`] = Math.max(dp(i-1, j, memo), dp(i, j-1, memo))
+            return memo[`${i},${j}`]
+        }
+
+
+    }
+
+    return dp(text1.length-1, text2.length-1)
+};
+
+
+// TABULATION, BOTTOM UP APPROACH
+let longestCommonSubsequenceTabulated = function(text1, text2) {
+
+    text1 = " " + text1;
+    text2 = " " + text2;
+
+    let width =  text1.length;
+    let height = text2.length;
+
+    let table = [...Array(height)].map(x => [...Array(width)].map(ele => 0))
+
+    for(let y = 1; y < height; y++) {
+        for(let x = 1; x < width; x++) {
+
+            if(text1[x] === text2[y]) {
+                 // with the same character
+                 // extend the length of common subsequence
+                 table[y][x] = 1 + table[y-1][x-1]
+            } else {
+                // with different characters
+                // choose the optimal subsequence
+                table[y][x] = Math.max(table[y-1][x], table[y][x-1])
+            }
+        }
+    }
+
+    return table[height-1][width-1]
+};
+
+longestCommonSubsequence("abcde", "ace") // 3

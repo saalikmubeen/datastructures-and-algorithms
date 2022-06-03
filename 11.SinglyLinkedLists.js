@@ -211,7 +211,7 @@ class SinglyLinkedList {
     }
 
 
-    // Reversing the Linked List in place
+    // Reversing the Linked List in place - O(n) time
     // 1 -> 2 -> 3 -> 4 -> 5 -> 6
     reverse() {
        let currentHead = this.head;
@@ -223,13 +223,14 @@ class SinglyLinkedList {
 
        let prev = null
        while(currentHead) { // for(var i = 0; i < this.length; i++)
-         let next = currentHead.next;
+        let next = currentHead.next;
         currentHead.next = prev;
         prev = currentHead
         currentHead = next
        }
 
        // prev will now contain the new head of the linked list
+       return prev;
 
     }
 

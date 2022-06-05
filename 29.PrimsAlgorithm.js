@@ -1,5 +1,5 @@
-// Prims’s Minimum Spanning Tree Algorithm , Minimum Cost Spanning Tree(MST)
-//
+// Prims’s Minimum Spanning Tree Algorithm , Minimum Cost Spanning Tree(MST) | Greedy Algorithm
+
 // What is Minimum Spanning Tree?
 // Given a connected and undirected graph, a spanning tree of that graph is a sub graph that is a tree and connects all the vertices together.
 // A single graph can have many different spanning trees. A minimum spanning tree (MST) or minimum weight spanning tree for a weighted,

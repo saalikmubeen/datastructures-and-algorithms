@@ -7,6 +7,8 @@
 // MAX BINARY HEAP
 // Each parent has at most two child nodes
 // The value of each parent node is always greater than its child nodes
+// So recursively, we want every value in the left subtree to smaller than the parent node
+// and we want every value in the right subtree to be smaller than the parent node.
 // In a max Binary Heap the parent is greater than the children, but there are no guarantees between sibling nodes.
 // A binary heap is as compact as possible. All the children of each node are as full
 // as they can be and left children are filled out first.
@@ -23,10 +25,15 @@
 // If you have a parent node at index n and want to find child nodes:
 // The left child is stored at 2n + 1 index in the array
 // The right child is at 2n + 2
-
 // WHAT IF WE HAVE A CHILD NODE AND WANT TO FIND ITS PARENT?
 // For any child node at index  n...
 // Its parent is at index Math.floor((n-1)/2)
+// This is if we are using a 0-based index
+
+// If we use a 1-based index, i.e the first element(root of the heap) is at index 1,
+// The left child is stored at 2n index in the array
+// The right child is at 2n + 1
+// And given a child node at index n, we can find its parent node at index Math.floor(n/2).
 
 //                          100
 //               19                   36
@@ -48,8 +55,7 @@
 // Insertion   -   O(log N)
 // Removal     -   O(log N)
 // Search      -   O(N)
-
-
+// Get Max/Min value - O(1)
 
 //          41
 //     39        33
@@ -57,92 +63,95 @@
 // [41, 39, 33, 18, 27, 12]
 
 class MaxBinaryHeap {
-  constructor (arr) {
+  constructor(arr) {
     // this.values = [41, 39, 33, 18, 27, 12]
-    this.values = this.buildHeap(arr)
+    this.values = this.buildHeap(arr);
   }
 
-  insert (value) {
-      // add it to the end
-    this.values.push(value)
+  insert(value) {
+    // add it to the end
+    this.values.push(value);
 
     // bubble the inserted value up to it's correct spot
-    this.bubbleUp()
+    this.bubbleUp();
   }
 
-  bubbleUp () {
-    let currentIndex = this.values.length - 1
-    let currentValue = this.values[currentIndex]
+  bubbleUp() {
+    let currentIndex = this.values.length - 1;
+    let currentValue = this.values[currentIndex];
 
     while (currentIndex > 0) {
-      let parentIndex = Math.floor((currentIndex - 1) / 2)
-      let parentValue = this.values[parentIndex]
+      let parentIndex = Math.floor((currentIndex - 1) / 2);
+      let parentValue = this.values[parentIndex];
 
       if (currentValue > parentValue) {
-          // swap the values
-        this.values[currentIndex] = parentValue
-        this.values[parentIndex] = currentValue
+        // swap the values
+        this.values[currentIndex] = parentValue;
+        this.values[parentIndex] = currentValue;
 
-        currentIndex = parentIndex
+        currentIndex = parentIndex;
       } else {
-          // inserted element is in the right spot. So, break out of loop
-        break
+        // inserted element is in the right spot. So, break out of loop
+        break;
       }
     }
   }
 
-  extractMax () {
-      // Remove the root
-      const max = this.values[0]
-      const last = this.values.pop()
+  extractMax() {
+    // Remove the root
+    const max = this.values[0];
+    const last = this.values.pop();
 
-      // edge case
-      if(this.values.length > 0) {
-        // Replace with the most recently added
-        this.values[0] = last;
+    // edge case
+    if (this.values.length > 0) {
+      // Replace with the most recently added
+      this.values[0] = last;
 
-        // Adjust (sink down)
-        this.sinkDown()
-      }
+      // Adjust (sink down)
+      this.sinkDown();
+    }
 
-      return max
+    return max;
   }
 
   sinkDown() {
-    let parentIndex = 0
-    let parentValue = this.values[parentIndex]
+    let parentIndex = 0;
+    let parentValue = this.values[parentIndex];
 
     while (true) {
-      let leftChildIndex = (2 * parentIndex) + 1
-      let rightChildIndex = (2 * parentIndex) + 2
-      let leftChildValue, rightChildValue
-      let swap = null
-      let swapIndex = null
+      let leftChildIndex = 2 * parentIndex + 1;
+      let rightChildIndex = 2 * parentIndex + 2;
+      let leftChildValue, rightChildValue;
+      let swap = null;
+      let swapIndex = null;
 
       if (leftChildIndex < this.values.length) {
-        leftChildValue = this.values[leftChildIndex]
+        leftChildValue = this.values[leftChildIndex];
 
         if (leftChildValue > parentValue) {
-          swap = leftChildValue
-          swapIndex = leftChildIndex
+          swap = leftChildValue;
+          swapIndex = leftChildIndex;
         }
       }
 
       if (rightChildIndex < this.values.length) {
-        rightChildValue = this.values[rightChildIndex]
+        rightChildValue = this.values[rightChildIndex];
 
-        if ((swap === null && rightChildValue > parentValue) || (swap !== null && rightChildValue > swap)) {
-          swap = rightChildValue
-          swapIndex = rightChildIndex
+        if (
+          (swap === null && rightChildValue > parentValue) ||
+          (swap !== null && rightChildValue > swap)
+        ) {
+          swap = rightChildValue;
+          swapIndex = rightChildIndex;
         }
       }
 
       if (swap) {
-        this.values[parentIndex] = swap
-        this.values[swapIndex] = parentValue
-        parentIndex = swapIndex
+        this.values[parentIndex] = swap;
+        this.values[swapIndex] = parentValue;
+        parentIndex = swapIndex;
       } else {
-        break
+        break;
       }
     }
   }
@@ -150,79 +159,79 @@ class MaxBinaryHeap {
   // O(logn) time | O(1) space
   siftDown(parentIndex, arr) {
     let endIndex = arr.length - 1;
-    let leftChildIndex = (2 * parentIndex) + 1
+    let leftChildIndex = 2 * parentIndex + 1;
     let swapIndex;
 
-    while(leftChildIndex <= endIndex) {
-      let rightChildIndex = (2 * parentIndex) + 2 <= endIndex ? (2 * parentIndex) + 2 : -1;
+    while (leftChildIndex <= endIndex) {
+      let rightChildIndex =
+        2 * parentIndex + 2 <= endIndex ? 2 * parentIndex + 2 : -1;
 
-      if(rightChildIndex !== -1 && arr[rightChildIndex] > arr[leftChildIndex]) {
-          swapIndex = rightChildIndex
+      if (
+        rightChildIndex !== -1 &&
+        arr[rightChildIndex] > arr[leftChildIndex]
+      ) {
+        swapIndex = rightChildIndex;
       } else {
-         swapIndex = leftChildIndex;
+        swapIndex = leftChildIndex;
       }
 
-      if(arr[swapIndex] > arr[parentIndex]) {
-         let larger = arr[swapIndex];
-         arr[swapIndex] = arr[parentIndex];
-         arr[parentIndex] = larger;
+      if (arr[swapIndex] > arr[parentIndex]) {
+        let larger = arr[swapIndex];
+        arr[swapIndex] = arr[parentIndex];
+        arr[parentIndex] = larger;
 
-         parentIndex = swapIndex;
-         leftChildIndex = (2 * parentIndex) + 1
+        parentIndex = swapIndex;
+        leftChildIndex = 2 * parentIndex + 1;
       } else {
-          break;
+        break;
       }
-
     }
-
   }
 
   // To heapify a subtree rooted with node i which is
   // an index in arr[]. n is size of heap
   // O(logn) time comolexity
- heapify(arr, n, i) {
-     var largest = i; // Initialize largest as root
-     var l = 2 * i + 1; // left = 2*i + 1
-     var r = 2 * i + 2; // right = 2*i + 2
+  heapify(arr, n, i) {
+    var largest = i; // Initialize largest as root
+    var l = 2 * i + 1; // left = 2*i + 1
+    var r = 2 * i + 2; // right = 2*i + 2
 
-     // If left child is larger than root
-     if (l < n && arr[l] > arr[largest])
-         largest = l;
+    // If left child is larger than root
+    if (l < n && arr[l] > arr[largest]) largest = l;
 
-     // If right child is larger than largest so far
-     if (r < n && arr[r] > arr[largest])
-         largest = r;
+    // If right child is larger than largest so far
+    if (r < n && arr[r] > arr[largest]) largest = r;
 
-     // If largest is not root
-     if (largest != i) {
-         let swap = arr[i];
-         arr[i] = arr[largest];
-         arr[largest] = swap;
+    // If largest is not root
+    if (largest != i) {
+      let swap = arr[i];
+      arr[i] = arr[largest];
+      arr[largest] = swap;
 
-         // Recursively heapify the affected sub-tree
-         this.heapify(arr, n, largest);
-     }
+      // Recursively heapify the affected sub-tree
+      this.heapify(arr, n, largest);
+    }
   }
 
   // O(n) time complexity
   buildHeapRecursive(arr) {
     let n = arr.length;
     for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
-       this.heapify(arr, n, i);
+      this.heapify(arr, n, i);
     }
 
     return arr;
   }
 
   buildHeap(arr) {
-     let n = arr.length;
-     let firstParentIdx = Math.floor(n / 2) - 1;
+    let n = arr.length;
+    let firstParentIdx = Math.floor(n / 2) - 1;
 
-     for(let i = firstParentIdx; i >= 0; i--) {
-        this.siftDown(i, arr)
-     }
+    for (let i = firstParentIdx; i >= 0; i--) {
+      this.siftDown(i, arr);
+    }
 
-     return arr;
+    return arr;
   }
 
   peek() {
@@ -236,10 +245,10 @@ class MaxBinaryHeap {
 // is called down-heap (also known as bubble-down, percolate-down, sift-down, trickle down,
 // heapify-down, cascade-down, and extract-min/max).
 
-const heap = new MaxBinaryHeap([1, 2, 3, 4, 5])
-console.log(heap.values) // [ 5, 4, 3, 1, 2 ]
-heap.insert(55)
-heap.insert(23)
-console.log(heap.values) // [55, 4, 23, 1, 2, 3,  5]
-console.log(heap.extractMax())
-console.log(heap.values) // [ 23, 4, 5, 1, 2, 3 ]
+const heap = new MaxBinaryHeap([1, 2, 3, 4, 5]);
+console.log(heap.values); // [ 5, 4, 3, 1, 2 ]
+heap.insert(55);
+heap.insert(23);
+console.log(heap.values); // [55, 4, 23, 1, 2, 3,  5]
+console.log(heap.extractMax());
+console.log(heap.values); // [ 23, 4, 5, 1, 2, 3 ]
